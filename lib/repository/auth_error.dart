@@ -1,0 +1,2 @@
+String authErrorSignUp = "";
+String authErrorLogin = "";
