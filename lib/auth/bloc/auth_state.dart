@@ -1,22 +1,21 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState extends Equatable {
-  final bool isLoading;
-  final bool successful;
-  const AuthState({required this.isLoading, required this.successful});
+abstract class AuthState extends Equatable {}
 
+class AuthStateLoggedIn extends AuthState {
+  AuthStateLoggedIn();
   @override
   List<Object> get props => [];
 }
 
-class AuthStateLoggedIn extends AuthState {
-  AuthStateLoggedIn({required super.isLoading, required super.successful});
+class AuthStateLoggedOut extends AuthState {
   @override
-  List<Object> get props => [isLoading, successful];
+  List<Object?> get props => [];
 }
 
-class AuthStateLoggedOut extends AuthState {
-  AuthStateLoggedOut({required super.isLoading, required super.successful});
+class AuthStateError extends AuthState {
+  final String error;
+  AuthStateError({required this.error});
   @override
-  List<Object> get props => [isLoading, successful];
+  List<Object?> get props => [error];
 }

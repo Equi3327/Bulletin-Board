@@ -4,23 +4,20 @@ abstract class NewsState extends Equatable {}
 
 class NewsInitial extends NewsState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class NewsLoading extends NewsState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class NewsLoaded extends NewsState {
-  final News news;
-  NewsLoaded({required this.news});
+  final List<News> newsList;
+  NewsLoaded({required this.newsList});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [news];
+  List<Object> get props => [newsList];
 }
 
 class NewsError extends NewsState {
@@ -28,6 +25,5 @@ class NewsError extends NewsState {
   NewsError(this.message);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [message];
 }

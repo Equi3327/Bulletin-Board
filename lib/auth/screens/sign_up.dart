@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/login/login.dart';
+import 'package:news_app/auth/screens/login.dart';
 
-import '../auth/bloc/auth_bloc.dart';
+import '../../news/screens/home.dart';
+import '../bloc/auth_bloc.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,30 +14,32 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  GlobalKey<FormState> _formKey = GlobalKey();
+  // GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "MyNews",
-          style: TextStyle(
-            color: Color.fromARGB(255, 11, 35, 145),
-            fontWeight: FontWeight.bold,
+    AuthState authState = AuthBloc().state;
+    if (authState is AuthStateLoggedIn) {
+      return Home();
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "MyNews",
+            style: TextStyle(
+              color: Color.fromARGB(255, 11, 35, 145),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        color: Colors.white,
-        child: Form(
-          key: _formKey,
+        body: Container(
+          padding: const EdgeInsets.all(20.0),
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -112,38 +115,30 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 20.0,
               ),
-              BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return !state.isLoading
-                      ? ElevatedButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                                  AuthEventSignUp(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  ),
-                                );
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Sign Up",
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 11, 35, 145),
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        )
-                      : CircularProgressIndicator();
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.read<AuthBloc>().add(
+                        AuthEventSignUp(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ),
+                      );
+                  // Navigator.of(context).pop();
                 },
+                child: Text(
+                  "Sign Up",
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 11, 35, 145),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
               ),
+
               RichText(
                   text: TextSpan(
                       text: "Already have an Account? ",
@@ -157,7 +152,6 @@ class _SignUpState extends State<SignUp> {
                         text: "Login",
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Navigato
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => const LoginPage(),
@@ -171,7 +165,7 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

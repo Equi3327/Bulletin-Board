@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/home/views/news_widget.dart';
+import 'package:news_app/news/widgets/news_widget.dart';
 import 'package:news_app/repository/remote_config_service.dart';
 
-import '../news/bloc/news_bloc.dart';
+import '../bloc/news_bloc.dart';
+import '../repositories/news_repository.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,19 +18,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String location = "";
-  // final RemoteConfigService remoteConfigService;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final remoteConfig = await FirebaseRemoteConfig.instance;
       final defaults = <String, dynamic>{"location": "IN"};
       await remoteConfig.fetch();
       await remoteConfig.activate();
-      setState(() {
-        location = remoteConfig.getString("location");
-      });
+      // setState(() {
+      //   location = remoteConfig.getString("location");
+      // });
     });
   }
 
@@ -71,8 +71,8 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: BlocProvider(
-        create: (context) => NewsBloc(),
-        child: NewsWidget(),
+        create: (context) => NewsBloc(newsRepository: NewsRepository()),
+        child: const NewsWidget(),
       ),
     );
   }

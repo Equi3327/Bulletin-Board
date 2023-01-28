@@ -24,15 +24,7 @@ class UserRepository {
     await _firebaseAuth.signOut();
   }
 
-  // Future<User?> getCurrentUser() async {
-  //   return await firebaseAuth.currentUser;
-  // }
   User? get currentUser => _firebaseAuth.currentUser;
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
-
-  // Future<bool> isSignedIn() async {
-  //   var currentUser = await firebaseAuth.currentUser;
-  //   return currentUser != null;
-  // }
 }

@@ -10,36 +10,45 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthStateLoggedOut(isLoading: false, successful: false)) {
+  AuthBloc() : super(AuthStateLoggedOut()) {
     on<AuthEventLogIn>((event, emit) async {
       try {
-        emit(AuthStateLoggedOut(isLoading: true, successful: false));
         await UserRepository()
             .signIn(email: event.email, password: event.password);
-        emit(AuthStateLoggedIn(isLoading: false, successful: true));
+        emit(AuthStateLoggedIn());
       } on FirebaseAuthException catch (e) {
-        print(e);
-        authErrorLogin = e.toString();
-        emit(AuthStateLoggedOut(isLoading: false, successful: false));
+        debugPrint(e.toString());
+        // authErrorLogin = e.toString();
+        emit(
+          AuthStateError(
+            error: e.toString(),
+          ),
+        );
+      } catch (e) {
+        emit(
+          AuthStateError(
+            error: e.toString(),
+          ),
+        );
       }
     });
     on<AuthEventLogOut>((event, emit) async {
-      try {
-        emit(AuthStateLoggedOut(isLoading: true, successful: false));
-        await UserRepository().signOut();
-        emit(AuthStateLoggedOut(isLoading: false, successful: true));
-      } catch (e) {}
+      await UserRepository().signOut();
+      emit(AuthStateLoggedOut());
     });
     on<AuthEventSignUp>((event, emit) async {
       try {
-        emit(AuthStateLoggedOut(isLoading: true, successful: false));
         await UserRepository()
             .signUp(email: event.email, password: event.password);
-        emit(AuthStateLoggedIn(isLoading: false, successful: true));
+        emit(AuthStateLoggedIn());
       } on FirebaseAuthException catch (e) {
-        print(e);
-        authErrorLogin = e.toString();
-        emit(AuthStateLoggedOut(isLoading: false, successful: false));
+        debugPrint(e.toString());
+        // authErrorLogin = e.toString();
+        emit(
+          AuthStateError(
+            error: e.toString(),
+          ),
+        );
       }
     });
   }
