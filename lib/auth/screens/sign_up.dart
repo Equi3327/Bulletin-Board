@@ -121,28 +121,29 @@ class _SignUpState extends State<SignUp> {
                   Navigator.of(context).pop();
                   context.read<AuthBloc>().add(
                         AuthEventSignUp(
+                          name: nameController.text,
                           email: emailController.text,
                           password: passwordController.text,
                         ),
                       );
                   // Navigator.of(context).pop();
                 },
-                child: Text(
-                  "Sign Up",
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 11, 35, 145),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
+                ),
+                child: const Text(
+                  "Sign Up",
                 ),
               ),
 
               RichText(
                   text: TextSpan(
                       text: "Already have an Account? ",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.black,
@@ -158,8 +159,8 @@ class _SignUpState extends State<SignUp> {
                               ),
                             );
                           },
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 11, 35, 145),
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 11, 35, 145),
                         )),
                   ])),
             ],

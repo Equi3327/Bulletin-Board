@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/auth/bloc/auth_bloc.dart';
-import 'package:news_app/auth/screens/login.dart';
 import 'package:news_app/news/bloc/news_bloc.dart';
-import 'package:news_app/news/repositories/news_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/news_model.dart';
@@ -33,7 +30,7 @@ class _NewsWidgetState extends State<NewsWidget> {
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Top Headlines",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -64,7 +61,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                         },
                         child: Card(
                           child: Container(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -100,7 +97,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                     child: Text(state.message.toString()),
                   );
                 } else {
-                  return Center(
+                  return const Center(
                     child: Text("Don't know"),
                   );
                 }
@@ -112,30 +109,6 @@ class _NewsWidgetState extends State<NewsWidget> {
     );
   }
 }
-
-// Widget _buildCard(BuildContext context, List<News> newsList) {
-//   return ListView.builder(
-//       shrinkWrap: true,
-//       physics: const ClampingScrollPhysics(),
-//       itemCount: newsList.length,
-//       itemBuilder: (BuildContext context, int index) {
-//         return GestureDetector(
-//           onTap: () async {
-//             _launchUrl(newsList[index].url);
-//           },
-//           child: Card(
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Text(newsList[index].description),
-//                 Image.network(newsList[index].urlToImage)
-//               ],
-//             ),
-//           ),
-//         );
-//       });
-// }
 
 Future<void> _launchUrl(String url) async {
   if (!await launchUrl(Uri.parse(url))) {

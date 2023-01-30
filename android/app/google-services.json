@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:26694444833:android:0607fa8c16f6ce70524060",
+        "mobilesdk_app_id": "1:26694444833:android:de28832d638c9526524060",
         "android_client_info": {
           "package_name": "com.my_app.news_app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "26694444833-o6tfpvu8r5arohhc36oidevqq2qcdvqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.my_app.news_app",
+            "certificate_hash": "553981f3659581db3752e72cc51298e9daa88b6d"
+          }
+        },
         {
           "client_id": "26694444833-305bnjfi72gcf6b6v08trnrbaslfhhks.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +37,13 @@
             {
               "client_id": "26694444833-305bnjfi72gcf6b6v08trnrbaslfhhks.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "26694444833-0fgmtifs84l40f4o99553g11jod70mm9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newsApp"
+              }
             }
           ]
         }

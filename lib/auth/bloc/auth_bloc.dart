@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLoggedIn());
       } on FirebaseAuthException catch (e) {
         debugPrint(e.toString());
-        // authErrorLogin = e.toString();
         emit(
           AuthStateError(
             error: e.toString(),
@@ -38,8 +37,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<AuthEventSignUp>((event, emit) async {
       try {
-        await UserRepository()
-            .signUp(email: event.email, password: event.password);
+        await UserRepository().signUp(
+            name: event.name, email: event.email, password: event.password);
         emit(AuthStateLoggedIn());
       } on FirebaseAuthException catch (e) {
         debugPrint(e.toString());
