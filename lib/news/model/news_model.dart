@@ -5,33 +5,42 @@ class News {
   final String urlToImage;
   final String description;
   final String url;
-  News(
-      {required this.source,
-      required this.urlToImage,
-      required this.description,
-      required this.url});
+  final String author;
+  final String title;
+  final String content;
+
+  News({
+    required this.source,
+    required this.urlToImage,
+    required this.description,
+    required this.url,
+    required this.author,
+    required this.title,
+    required this.content,
+  });
 
   factory News.fromJson(Map<String, dynamic> json) {
     try {
       String source = Source.fromJson(json['source']).name;
 
-      String urlToImage = json['urlToImage'] ?? "";
-      String description = json['description'] ?? "";
-      String url = json['url'] ?? "";
+      String urlToImage = json['urlToImage'] ?? "NA";
+      String description = json['description'] ?? "NA";
+      String url = json['url'] ?? "NA";
+      String author = json['author'] ?? "NA";
+      String title = json['title'] ?? "NA";
+      String content = json['content'] ?? "NA";
       return News(
-          source: source,
-          urlToImage: urlToImage,
-          description: description,
-          url: url);
+        source: source,
+        urlToImage: urlToImage,
+        description: description,
+        url: url,
+        content: content,
+        title: title,
+        author: author,
+      );
     } catch (e) {
-      print("Error in parsing News");
+      throw (e.toString());
     }
-    return News(
-      source: "",
-      urlToImage: "",
-      description: "",
-      url: "",
-    );
   }
 }
 
@@ -40,7 +49,7 @@ class Source {
   Source({required this.name});
   factory Source.fromJson(Map<String, dynamic> json) {
     try {
-      String name = json['name'] ?? "Anon";
+      String name = json['name'] ?? "NA";
       return Source(
         name: name,
       );

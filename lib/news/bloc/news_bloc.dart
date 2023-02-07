@@ -13,7 +13,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<GetNewsList>((event, emit) async {
       try {
         emit(NewsLoading());
-        final newsList = await NewsRepository().fetchNewsList();
+        final newsList =
+            await NewsRepository().fetchNewsList(location: event.location);
         emit(NewsLoaded(newsList: newsList));
       } catch (e) {
         // ignore: avoid_print

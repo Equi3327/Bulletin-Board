@@ -1,9 +1,10 @@
+// import 'dart:html';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/repository/auth_error.dart';
+
 import 'package:news_app/repository/user_repository.dart';
 
 part 'auth_event.dart';

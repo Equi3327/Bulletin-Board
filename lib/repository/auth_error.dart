@@ -1,2 +1,0 @@
-String authErrorSignUp = "";
-String authErrorLogin = "";

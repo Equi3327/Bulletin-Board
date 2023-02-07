@@ -1,12 +1,17 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/news/bloc/news_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../model/news_model.dart';
+import 'news_item.dart';
 
 class NewsWidget extends StatefulWidget {
-  const NewsWidget({super.key});
+  const NewsWidget({super.key, required this.location});
+  final String location;
 
   @override
   State<NewsWidget> createState() => _NewsWidgetState();
@@ -17,7 +22,8 @@ class _NewsWidgetState extends State<NewsWidget> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<NewsBloc>(context).add(GetNewsList());
+    BlocProvider.of<NewsBloc>(context)
+        .add(GetNewsList(location: widget.location));
   }
 
   @override
@@ -50,48 +56,7 @@ class _NewsWidgetState extends State<NewsWidget> {
                   );
                 } else if (state is NewsLoaded) {
                   List<News> newsList = state.newsList;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: newsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          _launchUrl(newsList[index].url);
-                        },
-                        child: Card(
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    newsList[index].description,
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Image.network(
-                                  newsList[index].urlToImage,
-                                  width: 75,
-                                  height: 75,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(
-                                      Icons.image_not_supported,
-                                      size: 50,
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                  return NewsItem(newsList: newsList);
                 } else if (state is NewsError) {
                   return Center(
                     child: Text(state.message.toString()),
@@ -107,11 +72,5 @@ class _NewsWidgetState extends State<NewsWidget> {
         ),
       ),
     );
-  }
-}
-
-Future<void> _launchUrl(String url) async {
-  if (!await launchUrl(Uri.parse(url))) {
-    throw Exception('Could not launch $url');
   }
 }

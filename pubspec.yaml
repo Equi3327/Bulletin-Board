@@ -45,6 +45,10 @@ dependencies:
   firebase_analytics: ^10.1.0
   dio: ^4.0.6
   url_launcher: ^6.1.8
+  cached_network_image: ^3.2.3
+  carousel_slider: ^4.2.1
+  location: ^4.4.0
+  geocoding: ^2.0.5
 
 dev_dependencies:
   flutter_test:

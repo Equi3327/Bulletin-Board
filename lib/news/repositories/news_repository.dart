@@ -6,10 +6,11 @@ import 'package:news_app/news/model/news_model.dart';
 
 class NewsRepository {
   final Dio _dio = Dio();
-  final String _url =
-      'https://newsapi.org/v2/top-headlines?country=us&apiKey=e08acc0545e3438babdc1451be6f36c4';
 
-  Future<List<News>> fetchNewsList() async {
+  Future<List<News>> fetchNewsList({required String location}) async {
+    final String _url =
+        'https://newsapi.org/v2/top-headlines?country=${location}&apiKey=e08acc0545e3438babdc1451be6f36c4';
+
     try {
       final Response response = await _dio.get(_url);
       if (response.statusCode == 200) {
