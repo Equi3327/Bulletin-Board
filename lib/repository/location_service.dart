@@ -36,7 +36,7 @@ class LocationServices {
     return _permissionGranted == PermissionStatus.granted;
   }
 
-  Future<LocationData?> getLocatin() async {
+  Future<LocationData?> getLocation() async {
     if (await checkPermission()) {
       final locationData = await _location.getLocation();
       return locationData;

@@ -20,7 +20,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late String location;
+  String location = "us";
+  String country = "IN";
   //final RemoteConfigService remoteConfigService = RemoteConfigService();
 
   @override
@@ -39,16 +40,16 @@ class _HomeState extends State<Home> {
     // });
   }
 
-  void getLocation() async {
-    LocationServices locationServices = LocationServices();
-    final LocationData? locationData = await locationServices.getLocatin();
+  Future<String> getLocation() async {
+    final LocationServices locationServices = LocationServices();
+    final LocationData? locationData = await locationServices.getLocation();
+    String countryName = "JP";
     if (locationData != null) {
       final placemark =
           await locationServices.getPlaceMark(locationData: locationData);
-      setState(() {
-        location = placemark?.country ?? 'us';
-      });
+      countryName = placemark?.country ?? "US";
     }
+    return countryName;
   }
 
   @override
@@ -70,11 +71,24 @@ class _HomeState extends State<Home> {
             children: [
               IconButton(
                 icon: const Icon(Icons.near_me),
-                onPressed: () {},
+                onPressed: () async {
+                  var newCountry = await getLocation();
+                  setState(() {
+                    country = newCountry;
+                  });
+                },
                 color: Colors.white,
               ),
               Text(
                 location,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+              Text(
+                country,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
