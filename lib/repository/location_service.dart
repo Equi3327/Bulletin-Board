@@ -16,6 +16,7 @@ class LocationServices {
 
       if (!_serviceEnabled) {
         _serviceEnabled = await _location.requestService();
+        print("Service Enabled: true");
       }
     } on PlatformException catch (e) {
       print("Error Code is: ${e.code} and message: ${e.message}");
@@ -47,11 +48,11 @@ class LocationServices {
   Future<geo.Placemark?> getPlaceMark({
     required LocationData locationData,
   }) async {
-    final List<geo.Placemark>? placeMarks = await geo.placemarkFromCoordinates(
+    final List<geo.Placemark> placeMarks = await geo.placemarkFromCoordinates(
       locationData.latitude!,
       locationData.longitude!,
     );
-    if (placeMarks != null && placeMarks.isNotEmpty) {
+    if (placeMarks.isNotEmpty) {
       return placeMarks[0];
     }
 

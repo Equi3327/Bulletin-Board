@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/auth/bloc/auth_bloc.dart';
 import 'package:news_app/news/screens/home.dart';
 import 'package:news_app/auth/screens/login.dart';
-import 'package:news_app/repository/user_repository.dart';
+import 'package:news_app/repository/location_service.dart';
+
+import 'location/bloc/location_bloc.dart';
 
 class ScreenController extends StatelessWidget {
   const ScreenController({super.key});
@@ -40,7 +42,11 @@ class ScreenController extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          return const Home();
+          return BlocProvider(
+            create: (context) =>
+                LocationBloc(locationServices: LocationServices()),
+            child: const Home(),
+          );
         } else if (state is AuthStateLoggedOut) {
           return const LoginPage();
         } else if (state is AuthStateError) {
