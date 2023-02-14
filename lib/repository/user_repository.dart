@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -35,13 +35,12 @@ class UserRepository {
       email: email,
       password: password,
     );
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("email", email);
+    sharedPreferences.setString("password", password);
   }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
-
-  User? get currentUser => _firebaseAuth.currentUser;
-
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 }

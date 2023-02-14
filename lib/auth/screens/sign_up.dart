@@ -20,153 +20,153 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    AuthState authState = AuthBloc().state;
-    if (authState is AuthStateLoggedIn) {
-      return Home();
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: const Text(
-            "MyNews",
-            style: TextStyle(
-              color: Color.fromARGB(255, 11, 35, 145),
-              fontWeight: FontWeight.bold,
+    // AuthState authState = AuthBloc().state;
+    // if (authState is AuthStateLoggedIn) {
+    //   return const Home();
+    // } else {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Bulletin Board",
+          style: TextStyle(
+            color: Color.fromARGB(255, 11, 35, 145),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(20.0),
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // const SizedBox(
+            //   height: 10.0,
+            // ),
+            TextFormField(
+              controller: nameController,
+              decoration: InputDecoration(
+                focusColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 11, 35, 145), width: 1.0),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                labelText: 'Name',
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
-          ),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(20.0),
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // const SizedBox(
-              //   height: 10.0,
-              // ),
-              TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 11, 35, 145), width: 1.0),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  labelText: 'Name',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            TextFormField(
+              controller: emailController,
+              decoration: InputDecoration(
+                focusColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 11, 35, 145), width: 1.0),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                labelText: 'Email',
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            TextFormField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                focusColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 11, 35, 145),
+                    width: 1.0,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 11, 35, 145), width: 1.0),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  labelText: 'Email',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                labelText: 'Password',
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextFormField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 11, 35, 145),
-                      width: 1.0,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  labelText: 'Password',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
 
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  context.read<AuthBloc>().add(
-                        AuthEventSignUp(
-                          name: nameController.text,
-                          email: emailController.text,
-                          password: passwordController.text,
-                        ),
-                      );
-                  // Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 11, 35, 145),
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                child: const Text(
-                  "Sign Up",
-                ),
-              ),
-
-              RichText(
-                  text: TextSpan(
-                      text: "Already have an Account? ",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
+            ElevatedButton(
+              onPressed: () {
+                // Navigator.of(context).pop();
+                context.read<AuthBloc>().add(
+                      AuthEventSignUp(
+                        name: nameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
                       ),
-                      children: [
-                    TextSpan(
-                        text: "Login",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
-                          },
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 11, 35, 145),
-                        )),
-                  ])),
-            ],
-          ),
+                    );
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 11, 35, 145),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              child: const Text(
+                "Sign Up",
+              ),
+            ),
+
+            RichText(
+                text: TextSpan(
+                    text: "Already have an Account? ",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    children: [
+                  TextSpan(
+                      text: "Login",
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        },
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 11, 35, 145),
+                      )),
+                ])),
+          ],
         ),
-      );
-    }
+      ),
+    );
+    // }
   }
 }

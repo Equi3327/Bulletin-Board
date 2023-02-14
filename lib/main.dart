@@ -20,10 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(
-        create: (_) => AuthBloc(),
-        child: const ScreenController(),
-      ),
+      home: ScreenFlow(key: key),
     );
   }
 }

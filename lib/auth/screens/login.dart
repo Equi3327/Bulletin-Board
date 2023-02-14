@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/auth/bloc/auth_bloc.dart';
+import 'package:news_app/location/bloc/location_bloc.dart';
 import 'package:news_app/news/screens/home.dart';
-import 'package:news_app/repository/user_repository.dart';
 import 'package:news_app/auth/screens/sign_up.dart';
-
-import '../../flow.dart';
+import 'package:news_app/repository/location_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,10 +20,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late final SharedPreferences sharedPreferences;
+  String? email;
+  String? password;
+  // late SharedPreferences loginData;
 
   @override
   void initState() {
     super.initState();
+    getUserId();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  getUserId() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    email = sharedPreferences.getString("email");
+    password = sharedPreferences.getString("password");
+    if (email != null && password != null) {
+      logIn(email: email, password: password);
+    }
   }
 
   void goToSignUp() {
@@ -35,11 +58,25 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void logIn() {
+  void logIn({required email, required password}) {
     BlocProvider.of<AuthBloc>(context).add(
       AuthEventLogIn(
-        email: emailController.text,
-        password: passwordController.text,
+        email: email,
+        password: password,
+      ),
+    );
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthBloc>(
+                create: (BuildContext context) => AuthBloc()),
+            BlocProvider<LocationBloc>(
+                create: (BuildContext context) =>
+                    LocationBloc(locationServices: LocationServices())),
+          ],
+          child: const Home(),
+        ),
       ),
     );
   }
@@ -48,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     AuthState authState = AuthBloc().state;
     if (authState is AuthStateLoggedIn) {
-      return Home();
+      return const Home();
     } else {
       return Scaffold(
         appBar: AppBar(
@@ -56,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
           automaticallyImplyLeading: false,
           elevation: 0,
           title: const Text(
-            "MyNews",
+            "Bulletin Board",
             style: TextStyle(
               color: Color.fromARGB(255, 11, 35, 145),
               fontWeight: FontWeight.bold,
@@ -118,14 +155,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  logIn();
+                  logIn(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
                 },
-                child: Text(
+                // ignore: sort_child_properties_last
+                child: const Text(
                   "Log In",
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 11, 35, 145),
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -134,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
               RichText(
                   text: TextSpan(
                       text: "New here? ",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.black,
